@@ -1,0 +1,77 @@
+import turtle
+import random
+
+
+screen = turtle.Screen()
+screen.bgcolor("black")
+
+
+thebox = turtle.Turtle()
+thebox.speed(50)
+thebox.color("red")
+thebox.penup()
+thebox.goto(-200,200)
+thebox.pendown()
+for i in range(4):
+  thebox.forward(400)
+  thebox.right(90)
+thebox.ht()
+
+thescore = turtle.Turtle()
+score = 0
+thescore.speed(1000)
+thescore.goto(-200,210)
+thescore.color("white")
+thescore.write("Score: " + str(score))
+
+
+turts = turtle.Turtle()
+turts.color("blue")
+turts.speed(100000)
+turts.penup()
+
+def left():
+  turts.left(10)
+
+def right():
+  turts.right(10)
+
+screen.onkey(left, "left")
+screen.onkey(right, "right")
+screen.listen()
+  
+balls = []
+for i in range(10):
+  t = turtle.Turtle()
+  t.shape("circle")
+  t.color("red")
+  t.speed(10000)
+  t.right(random.randint(0,360))
+  t.penup()
+  t.goto(random.randint(-180,180), random.randint(-180,180))
+  balls.append(t)
+  
+def checkTurts():
+  if turts.xcor() > 200 or turts.xcor() < -200:
+    turts.right(180)
+  elif turts.ycor() > 200 or turts.ycor() < -200:
+    turts.right(180)
+    
+  
+while True:
+  turts.forward(20)
+  checkTurts()
+  for ball in balls:
+    if ball.xcor() > 200 or ball.xcor() < -200:
+      ball.right(180)
+    elif ball.ycor() > 200 or ball.ycor() < -200:
+      ball.right(180)
+    if abs(turts.xcor() - ball.xcor()) < 15 and abs(turts.ycor() - ball.ycor()) < 15:
+      score += 10
+      ball.penup()
+      ball.goto(random.randint(-180,180), random.randint(-180,180))
+    ball.forward(10)
+    thescore.clear()
+  thescore.write("Score: " + str(score))
+
+ 

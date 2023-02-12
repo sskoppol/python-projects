@@ -1,0 +1,77 @@
+# main.py
+import time 
+import random
+
+
+def off(sen1, sen2):
+  sen1dict = {}
+  sen2dict = {}
+  alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  for i in alphabet:
+    sen1dict[i] = 0
+    sen2dict[i] = 0
+    
+  l1 = sen1.split()
+  l2 = sen2.split()
+  for s in l1:
+    for letter in s:
+      if letter in alphabet:
+        sen1dict[letter] += 1
+  for s in l2:
+    for letter in s:
+      if letter in alphabet:
+        sen2dict[letter] += 1
+
+  answer1 = 0
+  for s in alphabet:
+    answer1 += abs(sen1dict[s] - sen2dict[s])
+
+  answer2 = 0
+  
+  for l in l1:
+    for i in l2:
+      print(l)
+      print(i)
+      if l == i:
+        l2.remove(i)
+        l1.remove(l)
+        print()
+        break
+  answer2 = len(l1)
+  print("You had a difference of " + str(answer1) + " letters.")
+  print("You got " + str(answer2) + " words wrong.")
+  sen = len(sentences[h])
+  acc = (answer2/sen) * 100
+  print("You were " + str(acc) + " percent accurate")
+  
+  
+sentences = ["One morning I shot an elephant in my pajamas. How he got into my pajamas I'll never know.", "The complex houses married and single soldiers and their families.", "The rat the cat the dog chased killed ate the malt."]
+Tp = print(input("Welcome to Type Racer. Press Enter to play."))
+print( "Ready....")   
+time.sleep(1)
+print("Set....")
+time.sleep(1)
+print("Type! ")
+time.sleep(1)
+
+#h = random.randint(0, len(sentences) - 1)
+
+h = 2
+spl = sentences[h].split()
+print(sentences[h])
+startTime = time.time()
+
+typee = input("Type: ")
+endTime = time.time()
+
+if sentences[h] == typee:
+  print("You finished typing in " + str(endTime - startTime) + " seconds")
+  
+else:
+  print("You finished typing in " + str(endTime - startTime) + " seconds but you did poorly :( ")
+  off(sentences[h], typee)
+  yn = input("Would you like to try again? y/n: ")
+  if yn == "y":
+    typee = input("Type again: ")
+  elif yn == "n":
+    exit

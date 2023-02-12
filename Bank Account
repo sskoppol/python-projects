@@ -1,0 +1,43 @@
+# main.py
+#write intro message
+#ask user for username and password
+userPass = {'janesmith': 'secret', 'yomama': 'yodada'}
+accounts = {'janesmith': 1000, 'yomama': 500}
+
+while True:
+  print("Welcome to the BankOfAmerica  log in: ")
+  
+  while True:
+    user = input("Username: ")
+    passW = input("Password: ")
+  
+    if user in userPass:
+      if passW == userPass[user]:
+        break
+      else:
+        print("Invalid Password")
+    else:
+      print(" No account found")
+      
+  while True:
+    print("\nWelcome " + user + "! You currently have $" + str(accounts[user]) + ". What would you like to do bud? ")
+    print("\t 1. Make a deposit" )
+    print("\t 2. Make a withdrawal")
+    print("\t 3. Change your password")
+    print("\t 4. Log out")
+    choice = int(input())
+    if choice == 1:
+      deposit = int(input("How much would you like to deposit?  "))
+      accounts[user] += deposit 
+    if choice == 2:
+      withdrawal = int(input("How much would you like to withdraw?  "))
+      if accounts[user] >= withdrawal:
+        accounts[user] -= withdrawal
+      else:
+        print("Withdrawal failed")
+    if choice == 3:
+       passs = input("What would you like to change your password to?  ")
+       userPass[user] = passs
+    if choice == 4:
+      print("Thank you for choosing BankOfAmerica!")
+      break

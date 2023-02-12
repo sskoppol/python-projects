@@ -1,0 +1,145 @@
+import turtle
+import random
+screen = turtle.Screen()
+screen.bgcolor("black")
+screen.tracer(0)
+screen.register_shape("paddle",((0,0), (10,0), (10,100), (0,100)))
+
+
+# Box
+
+box = turtle.Turtle()
+box.speed(50)
+box.color("white")
+box.penup()
+box.goto(-300,300)
+box.pendown()
+for i in range(4):
+  box.forward(600)
+  box.right(90)
+box.ht()
+
+
+# Paddles
+
+paddle1 = turtle.Turtle()
+paddle1.speed(0)
+paddle1.left(90)
+paddle1.color("white")
+paddle1.penup()
+paddle1.goto(-290,0)
+paddle1.shape("paddle")
+
+paddle2 = turtle.Turtle()
+paddle2.speed(0)
+paddle2.left(90)
+paddle2.color("white")
+paddle2.penup()
+paddle2.goto(300,0)
+paddle2.shape("paddle")
+
+
+# The Score
+
+thescore1 = turtle.Turtle()
+player1 = 0
+thescore1.speed(1000)
+thescore1.goto(-300,315)
+thescore1.color("white")
+thescore1.write("player1: " + str(player1), font=("Courier", 24, "normal"))
+thescore1.ht()
+
+thescore2 = turtle.Turtle()
+player2 = 0
+thescore2.speed(100)
+thescore2.goto(90,315)
+thescore2.color("white")
+thescore2.write("player2: " + str(player2), font=("courier", 24, "normal"))
+thescore2.ht()
+
+ball = turtle.Turtle()
+ball.speed(0)
+ball.shape("circle")
+ball.color("white")
+ball.penup()
+ball.right(random.randint(-30,30))
+
+
+def up():
+  paddle1.forward(10)
+  
+def down():
+  paddle1.backward(10)
+  
+  
+def up1():
+  paddle2.forward(10)
+  
+def down1():
+  paddle2.backward(10)
+  
+  
+screen.onkey(up, "up")
+screen.onkey(up1,"w")
+screen.onkey(down,"down")
+screen.onkey(down1,"s")
+screen.listen()
+  
+  
+def setHeading(context):
+  # finds offset to any plane
+ ballHeading = ball.heading()
+ 
+ if context == "topBound" or context == "bottomBound":
+   ball.setheading(360 - ballHeading)
+ elif 0 <= ballHeading < 180:
+   ball.setheading(180 - ballHeading)
+ elif 180 <= ballHeading < 360:
+   ball.setheading(540 - ballHeading)
+
+
+while True:
+  ball.forward(4)
+  if abs(ball.xcor() - paddle1.xcor()) <= 10 and paddle1.ycor() <= ball.ycor() <= (paddle1.ycor() + 100):
+    setHeading("paddle1") 
+  elif abs(ball.xcor() - paddle2.xcor()) <= 10 and paddle2.ycor() <= ball.ycor() <= (paddle2.ycor() + 100):
+    setHeading("paddle2")
+  
+  #If it hits left side, setheading to 180, turn right random like above, go to 00, add to player 2 score, update scores
+  # else if hit right side, setheading to 0, right random like above, goto 0,0, add 1 to p1 score, update scores (use .clear()). If it hits top (ycor >= 300) or bottom (ycor <= -300) setHeading("topBound/bottomBound")
+  if ball.xcor() <= -300:
+    ball.setheading(180)
+    ball.right(random.randint(-30,30))
+    ball.goto(0,0)
+    player2 += 1
+    thescore2.clear()
+    thescore2.write("player2: " + str(player2), font=("courier", 24, "normal"))
+  elif ball.xcor() >= 300:
+    ball.setheading(0)
+    ball.right(random.randint(-30,30))
+    ball.goto(0,0)
+    player1+= 1
+    thescore1.clear()
+    thescore1.write("player1: " + str(player1), font=("Courier", 24, "normal"))
+    
+  elif ball.ycor() >= 300: 
+    setHeading("topBound")
+  elif ball.ycor() <=-300:
+    setHeading('bottomBound')
+  screen.update()
+  
+  if paddle1.ycor() >= 210:
+    paddle1.backward(10)
+    
+  elif paddle2.ycor() >= 210:
+    paddle1.backward(10) 
+    
+  elif paddle1.ycor() <= -310:
+    paddle1.forward(10)
+    
+  elif paddle2.ycor() <= -310:
+    paddle2.forward(10)
+  
+  if player1 >= 5 or player2 >= 5:
+    break
+    

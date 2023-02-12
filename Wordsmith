@@ -1,0 +1,66 @@
+import random
+import time
+
+# reads words into list
+f = open("valid_words.txt")
+validWords = f.readlines()
+validWords = [x.strip() for x in validWords]
+f.close()
+
+
+#WS = input("Welcome to Wordsmith! In this game, come up with as many words as you can using the 7 letters you are given. Press Enter to begin scrub! ")
+print( "Ready....")   
+#time.sleep(1)
+print("Set....")
+#time.sleep(1)
+print("Type! \n" )
+#time.sleep(1)
+
+alphabet = []
+  
+for i in range(97, 123):
+  alphabet.append(chr(i))
+
+'''
+ranA = []
+i = 0
+while i < 7:
+  ranAChar = random.choice(alphabet)
+  if ranAChar not in ranA:
+    i += 1
+    ranA.append(ranAChar)
+print(ranA)
+'''
+
+
+ranC = []
+for i in range(7):
+  ran = random.randint(97,122)
+  while chr(ran) in ranC:
+    ran = random.randint(97,122)
+  ranChar = chr(ran)
+  ranC.append(ranChar)
+print(ranC)
+
+words = []
+
+score = 0
+while True:
+  word = input("Enter a word: ")
+  goodLetter = False
+  for letter in word:
+    if letter not in ranC:
+      print("You turd please use a valid letter")
+      goodLetter = True
+      break
+    if goodLetter == True:
+      continue
+  if word in validWords and word not in words:
+    score += len(word)
+    words.append(word)
+    print("Valid word! Your score is: " + str(score) + "\n") 
+  elif word in words:
+    print("You already entered this word scrub!! \n")
+  else:
+    print("Invalid word bud. Your score is " + str(score) + "\n")
+      

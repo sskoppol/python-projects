@@ -1,0 +1,91 @@
+import time 
+import random 
+
+# converts the hand into a string to print
+def printHand(hand):
+  handVal = []
+  for h in hand:
+    if h == 1 or h > 10:
+      handVal.append(cardNames[h])
+    else:
+      handVal.append(str(h))
+  print(handVal)
+
+# returns a list of all possible hand values (aces can be 1 or 11)
+def calcHandValues(hand):
+  total = 0 
+  aces = 0 
+  for num in hand:
+    if num == 1:
+      total += 1
+      aces += 1
+    elif num > 10:
+      total += 10
+    else:
+      total += num
+  if aces == 0:
+    return total
+  else:
+    aceValues = [total]
+    for i in range(1, aces+1):
+      aceValues.append(total+(i*10))
+    return getFinalValue(aceValues)
+  
+# returns the best possible value of the hand
+def getFinalValue(aceValues):
+  aceValues = sorted(aceValues)
+  print(aceValues)
+  finalV = 0
+  for val in aceValues:
+    if val <= 21:
+      finalV = val
+  if finalV == 0:
+    finalV = aceValues[0]
+  return finalV
+  
+
+input("Welcome to the game of Blackjack! In this game, you will be dealt two cards to start. Your goal is to get as close to 21 as possible without going over - or busting! In this game, Jack, Queen, and King are each worth 10 and the Ace is worth 1 or 11.\n\nThe dealer will first ask you to hit (take another card) or stay. As long as you don't bust, once you decide to stay, the dealer will then play his hand. The dealer always has to hit until his hand is at least 17. Whoever has the better hand at the end wins!\n\nPress Enter to start playing.\n")
+
+
+cardNames = {1: "Ace", 11: "Jack", 12: "Queen", 13: "King"}
+
+
+  
+while True: 
+  deck = []
+  for i in range(4):
+    for n in range(1,14):
+      deck.append(n)
+  player = []
+  for i in range(2):
+    card = random.choice(deck)
+    deck.remove(card)
+    player.append(card)  
+  if calcHandValues(player) == 21:
+    print("You win")
+  done = False
+  while done == False:
+    print("Here is your hand")
+    printHand(player)
+    
+    user = input("Press h to hit and s to stay: ")
+    if user == "h":
+      card = random.choice(deck)
+      deck.remove(card)
+      player.append(card)
+      val = calcHandValues(player)
+      print("You drew a " + str(card))
+      if val == 21:
+        print("BLACKJACK! ")
+        done = True
+        break
+      elif val > 21:
+        print("BUST")
+        done = True
+        break
+    if user == "s":
+      break
+  
+  if done == True:
+    exit
+  
